@@ -1,5 +1,14 @@
 package com.amazonaws.lambda.demo;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +28,10 @@ public class LambdaFunctionHandler implements RequestHandler<Example, String> {
 	public String handleRequest(Example responses, Context context) {
 
 		Map<String, String> descriptionList = new HashMap();
-
+		String output = null;
+		StringBuffer finalResponse = new StringBuffer();
 		 Response response = (Response) responses.getResponses().get(0);
-		 context.getLogger().log("Input: " + response);
+		    
 		 StringBuffer result = new StringBuffer();
 		
 		ImagePropertiesAnnotation imagePropertiesAnnotation = response.getImagePropertiesAnnotation();
@@ -45,15 +55,54 @@ public class LambdaFunctionHandler implements RequestHandler<Example, String> {
 			if (webEntity.getScore() > .8) {
 				
 				if(webEntity.getDescription().contains(" ")) {
-					result.append("\""+ webEntity.getDescription().replace(" ", "+")+"\"" + "+");
+					result.append("/\""+ webEntity.getDescription().replace(" ", "+")+"\"" + "+");
 				}else {
 					result.append(webEntity.getDescription() +"+");
 				}
 				
 			}
 		}
+		String finalResult = result.toString() + webDetections.getBestGuessLabels().get(0).toString();
+				//.substring(0, result.toString().length()-1);
+		 try {
+			 
+			String s=  "http://ec2-34-246-163-189.eu-west-1.compute.amazonaws.com:9090//getProductDetails/v1?query="+URLEncoder.encode(finalResult,"UTF-8");
+			context.getLogger().log("Input URL: " + s);
+			URL url = new URL(s);
+ 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+ 	       conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
 
-		return result.toString();
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ conn.getResponseCode());
+			}
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+				(conn.getInputStream())));
+
+			System.out.println("Output from Server .... \n");
+			while ((output = br.readLine()) != null) {
+				System.out.println(output);
+				finalResponse.append(output);
+			}
+
+			conn.disconnect();
+
+		  } catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		  } catch (IOException e) {
+
+			e.printStackTrace();
+
+		  }
+
+
+
+
+		return finalResponse.toString();
 
 		/*
 		 * context.getLogger().log("Input: " + input);
