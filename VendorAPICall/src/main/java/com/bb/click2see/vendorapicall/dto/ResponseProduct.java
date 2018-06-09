@@ -3,7 +3,7 @@
  */
 package com.bb.click2see.vendorapicall.dto;
 
-public class Product {
+public class ResponseProduct {
 	
 	private int id;
 
@@ -18,6 +18,8 @@ public class Product {
 	private boolean isLoanAvailable;
 	
 	private String loanOffers;
+	
+	private String imagePath;
 
 	public int getId() {
 		return id;
@@ -73,6 +75,14 @@ public class Product {
 
 	public void setLoanOffers(String loanOffers) {
 		this.loanOffers = loanOffers;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 	
 	
