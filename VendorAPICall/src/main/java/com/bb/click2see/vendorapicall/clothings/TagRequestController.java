@@ -4,15 +4,18 @@
 package com.bb.click2see.vendorapicall.clothings;
 
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +31,9 @@ import com.bb.click2see.vendorapicall.dto.clothings.response.Product;
 public class TagRequestController {
   
 	private static final String APIURL = "https://api.asos.com/product/search/v1/?";
+
+	private static final String APIURLFORSINGLEPRODUCT= "http://api.asos.com/product/catalogue/v2/products/";
+	
 	
 	//@Autowired
 	private final int myId = 10;
@@ -36,7 +42,7 @@ public class TagRequestController {
 	@GetMapping("/getProductDetails/v1")
 	@ResponseBody
     public ResponseProductList getProduct(@RequestParam(name="id", required=false, defaultValue="0") String id,
-    		@RequestParam(name="query", required=false, defaultValue="0") String query) throws URISyntaxException {
+    		@RequestParam(name="query", required=false, defaultValue="shirts+jeans") String query) throws URISyntaxException {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		
@@ -58,9 +64,30 @@ public class TagRequestController {
 		ClothingAPIResponse clothProductList = restTemplate.getForObject(uri, ClothingAPIResponse.class);
 		
 		ResponseProductList responseProductList = prepareResponseProductList(clothProductList.getProducts());
+
+		System.out.println("No. of products found: "+responseProductList.getProductList().size());
 		return responseProductList;
     }
 
+	@GetMapping("/getProductDetails/v1/{id}")
+	@ResponseBody
+    public ClientHttpResponse getProduct(@PathVariable int id) throws URISyntaxException, IOException {
+		
+		RestTemplate restTemplate = new RestTemplate();
+		
+		StringBuilder params = new StringBuilder();
+		params.append(id);
+		params.append("?store=COM");
+		params.append("&lang=en-GB");
+		params.append("&sizeschema=EU");
+		params.append("&currency=EUR");
+		
+		String finalUrl = APIURLFORSINGLEPRODUCT+URLEncoder.encode(params.toString(), "UTF-8");
+		System.out.println("APIURL: "+finalUrl);
+		URI uri = new URI(finalUrl);
+		return restTemplate.getRequestFactory().createRequest(uri, HttpMethod.GET).execute();
+	
+    }
 
 	private ResponseProductList prepareResponseProductList(List<Product> clothProductList) {
 
