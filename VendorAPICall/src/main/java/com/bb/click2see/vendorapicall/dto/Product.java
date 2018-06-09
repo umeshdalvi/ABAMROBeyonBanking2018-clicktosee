@@ -5,44 +5,37 @@ package com.bb.click2see.vendorapicall.dto;
 
 public class Product {
 	
-	private final int id;
+	private int id;
 
-	private final String name;
+	private String name;
+		
+	private Double price;
 	
-	public Product(int id, String name) {
-		this.id =id;
-		this.name =name;
-	}
-
+	private String description;
 	
+	private String offers;
 	
-	/*private Double price = 0d;
+	private boolean isLoanAvailable;
 	
-	private String description = null;
-	
-	private String offers = null;
-	
-	private boolean isLoanAvailable = false;
-	
-	private String loanOffers = null;*/
+	private String loanOffers;
 
 	public int getId() {
 		return id;
 	}
 
-	/*public void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-*/
+
 	public String getName() {
 		return name;
 	}
 
-/*	public void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
-	}*/
+	}
 
-	/*public Double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
@@ -81,6 +74,6 @@ public class Product {
 	public void setLoanOffers(String loanOffers) {
 		this.loanOffers = loanOffers;
 	}
-	*/
+	
 	
 }
