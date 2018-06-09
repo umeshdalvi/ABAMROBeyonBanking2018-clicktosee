@@ -1,20 +1,20 @@
 
-package com.bb.click2see.vendorapicall.dto.clothings.response;
+package com.bb.click2see.vendorapicall.clothings.dto.response;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Rrp {
+public class Previous {
 
-    private double value;
+    private Object value;
     private String text;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public double getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 

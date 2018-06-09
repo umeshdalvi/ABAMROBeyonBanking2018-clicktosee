@@ -1,5 +1,5 @@
 
-package com.bb.click2see.vendorapicall.dto.clothings.response;
+package com.bb.click2see.vendorapicall.clothings.dto.response;
 
 import java.util.HashMap;
 import java.util.List;
