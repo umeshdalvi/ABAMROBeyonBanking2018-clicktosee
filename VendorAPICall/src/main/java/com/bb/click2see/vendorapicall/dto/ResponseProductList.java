@@ -10,7 +10,7 @@ import java.util.List;
  *
  */
 public class ResponseProductList {
-	
+
 	private List<ResponseProduct> productList;
 
 	public List<ResponseProduct> getProductList() {
@@ -22,7 +22,7 @@ public class ResponseProductList {
 	}
 
 	public ResponseProductList(List<ResponseProduct> productList) {
-		this.productList=productList;
+		this.productList = productList;
 	}
 
 }

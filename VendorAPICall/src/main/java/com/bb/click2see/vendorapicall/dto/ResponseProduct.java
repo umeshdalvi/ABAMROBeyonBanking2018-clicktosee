@@ -4,21 +4,21 @@
 package com.bb.click2see.vendorapicall.dto;
 
 public class ResponseProduct {
-	
+
 	private int id;
 
 	private String name;
-		
+
 	private Double price;
-	
+
 	private String description;
-	
+
 	private String offers;
-	
+
 	private boolean isLoanAvailable;
-	
+
 	private String loanOffers;
-	
+
 	private String imagePath;
 
 	public int getId() {
@@ -84,6 +84,5 @@ public class ResponseProduct {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	
-	
+
 }

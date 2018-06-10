@@ -6,32 +6,32 @@ import java.util.Map;
 
 public class Current {
 
-    private double value;
-    private String text;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	private double value;
+	private String text;
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public double getValue() {
-        return value;
-    }
+	public double getValue() {
+		return value;
+	}
 
-    public void setValue(double value) {
-        this.value = value;
-    }
+	public void setValue(double value) {
+		this.value = value;
+	}
 
-    public String getText() {
-        return text;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public void setText(String text) {
-        this.text = text;
-    }
+	public void setText(String text) {
+		this.text = text;
+	}
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
 
 }

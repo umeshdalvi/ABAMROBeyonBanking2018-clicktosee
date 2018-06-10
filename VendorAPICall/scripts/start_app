@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /home/ec2-user/javaapp
+nohup java -jar VendorAPICall-1.0.0.jar > myapp.logs & 
+netstat -nlp | grep 9090
