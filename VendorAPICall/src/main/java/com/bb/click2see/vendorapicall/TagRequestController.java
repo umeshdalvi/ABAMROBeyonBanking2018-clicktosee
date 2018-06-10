@@ -11,6 +11,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +33,18 @@ public class TagRequestController {
 	private static final String APIURL = "https://api.asos.com/product/search/v1/?";
 
 	private static final String APIURLFORSINGLEPRODUCT = "http://api.asos.com/product/catalogue/v2/products/";
+	
+	private static Logger logger = LoggerFactory.getLogger(TagRequestController.class);
+	
+	org.slf4j.Marker marker;
+	
 
 	@GetMapping("getProductDetails/v1")
 	@ResponseBody
 	public ResponseProductList getProduct(@RequestParam(name = "query", required = true) String query)
 			throws URISyntaxException, UnsupportedEncodingException {
 
-		System.out.println("Tags Received: " + query);
+		logger.info(marker, "Tags Received: {}", query);
 
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -53,14 +60,17 @@ public class TagRequestController {
 		params.append("&limit=10");
 
 		String finalUrl = APIURL + params.toString();
-		System.out.println("APIURL: " + finalUrl);
+		
+		logger.info(marker, "APIURL: {}" , finalUrl);
+		
 		URI uri = new URI(finalUrl);
 
 		ClothingAPIResponse clothProductList = restTemplate.getForObject(uri, ClothingAPIResponse.class);
 
 		ResponseProductList responseProductList = prepareResponseProductList(clothProductList.getProducts());
 
-		System.out.println("No. of products found: " + responseProductList.getProductList().size());
+		logger.info(marker, "No. of products found: {}" , responseProductList.getProductList().size());
+		
 		return responseProductList;
 	}
 
@@ -78,7 +88,8 @@ public class TagRequestController {
 		params.append("&currency=EUR");
 
 		String finalUrl = APIURLFORSINGLEPRODUCT + params.toString();
-		System.out.println("APIURL: " + finalUrl);
+		logger.info(marker, "APIURL: {}" , finalUrl);
+		
 		URI uri = new URI(finalUrl);
 		return restTemplate.getForObject(uri, Object.class);
 	}
